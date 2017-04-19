@@ -1,0 +1,32 @@
+{
+  "name": "Stopka/nette-form-renderer",
+  "description": "Form Renderer backward compatible with Nette/Forms/DefaultFormRenderer extended with new features and rewritten to be extendable",
+  "keywords": ["nette", "forms", "renderer", "bootstrap"],
+  "license": ["GPL-3.0"],
+  "authors": [
+    {
+      "name": "Štěpán Škorpil",
+      "homepage": "https://skorpils.cz"
+    },
+    {
+      "name": "Training-online.eu",
+      "homepage": "https://training-online.eu"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "nette/forms": "^3.0"
+  },
+  "require-dev": {
+    "nette/tester": "^2.0"
+  },
+  "autoload": {
+    "classmap": ["src/"]
+  },
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "developer"
+    }
+  }
+}
