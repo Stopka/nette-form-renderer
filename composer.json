@@ -1,5 +1,5 @@
 {
-  "name": "Stopka/nette-form-renderer",
+  "name": "stopka/nette-form-renderer",
   "description": "Form Renderer backward compatible with Nette/Forms/DefaultFormRenderer extended with new features and rewritten to be extendable",
   "keywords": ["nette", "forms", "renderer", "bootstrap"],
   "license": ["GPL-3.0"],
@@ -7,10 +7,6 @@
     {
       "name": "Štěpán Škorpil",
       "homepage": "https://skorpils.cz"
-    },
-    {
-      "name": "Training-online.eu",
-      "homepage": "https://training-online.eu"
     }
   ],
   "require": {
