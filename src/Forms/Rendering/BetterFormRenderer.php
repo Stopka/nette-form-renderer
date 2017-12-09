@@ -311,7 +311,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
             ? $control->getErrors()
             : ($own ? $this->form->getOwnErrors() : $this->form->getErrors());
         if (!$errors) {
-            return;
+            return "";
         }
         $container = $this->getWrapper($control ? 'control errorcontainer' : 'error container');
         $item = $this->getWrapper($control ? 'control erroritem' : 'error item');
