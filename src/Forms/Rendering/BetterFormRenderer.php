@@ -672,7 +672,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * @param  string
      * @return string
      */
-    protected function getValue(string $name): string {
+    protected function getValue(string $name): ?string {
         $name = explode(' ', $name);
         $data = &$this->wrappers[$name[0]][$name[1]];
         return $data;
