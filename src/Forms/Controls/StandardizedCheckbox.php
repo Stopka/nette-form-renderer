@@ -17,10 +17,18 @@ use Nette\Forms\Controls\Checkbox;
  */
 class StandardizedCheckbox extends Checkbox {
 
-    private $caption;
+    private $partCaption;
+
+    public $partLabel;
+
+    public function __construct($label = null) {
+        parent::__construct($label);
+        $this->partLabel = \Nette\Utils\Html::el('label');
+    }
+
 
     public function setLabelPart($caption){
-        $this->caption = $caption;
+        $this->partCaption = $caption;
     }
 
     public function getLabel($caption = NULL) {
@@ -28,7 +36,10 @@ class StandardizedCheckbox extends Checkbox {
     }
 
     public function getLabelPart() {
-        return $this->caption;
+        $label = clone $this->label;
+        $label->for = $this->getHtmlId();
+        $label->setText($this->translate($this->partCaption));
+        return $label;
     }
 
 
