@@ -27,8 +27,9 @@ class StandardizedCheckbox extends Checkbox {
     }
 
 
-    public function setLabelPart($caption){
+    public function setLabelPart($caption): self {
         $this->partCaption = $caption;
+        return $this;
     }
 
     public function getLabel($caption = NULL) {
