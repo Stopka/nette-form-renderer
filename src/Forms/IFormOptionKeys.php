@@ -9,7 +9,8 @@
 namespace Stopka\NetteFormRenderer\Forms;
 
 
-interface IFormOptionKeys {
+interface IFormOptionKeys
+{
     const OPTION_KEY_DESCRIPTION = 'description';
     const OPTION_KEY_TYPE = 'type';
     const OPTION_KEY_VISUAL = 'visual';

@@ -15,28 +15,37 @@ use Nette\Forms\Controls\Checkbox;
  * Class StandardizedCheckbox
  * @package Stopka\NetteFormRenderer\Forms\Controls
  */
-class StandardizedCheckbox extends Checkbox {
+class StandardizedCheckbox extends Checkbox
+{
 
     private $partCaption;
 
     public $partLabel;
 
-    public function __construct($label = null) {
+    /**
+     * StandardizedCheckbox constructor.
+     * @param string|object $label
+     */
+    public function __construct($label = null)
+    {
         parent::__construct($label);
         $this->partLabel = \Nette\Utils\Html::el('label');
     }
 
 
-    public function setLabelPart($caption): self {
+    public function setLabelPart($caption): self
+    {
         $this->partCaption = $caption;
         return $this;
     }
 
-    public function getLabel($caption = NULL) {
+    public function getLabel($caption = null)
+    {
         return parent::getLabelPart();
     }
 
-    public function getLabelPart() {
+    public function getLabelPart()
+    {
         $label = clone $this->label;
         $label->for = $this->getHtmlId();
         $label->setText($this->translate($this->partCaption));

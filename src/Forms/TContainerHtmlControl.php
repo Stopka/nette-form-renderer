@@ -11,7 +11,8 @@ namespace Stopka\NetteFormRenderer\Forms;
 
 use Nette\Utils\Html;
 
-trait TContainerHtmlControl {
+trait TContainerHtmlControl
+{
     /**
      * Adds check box control to the form.
      * @param string
@@ -19,7 +20,8 @@ trait TContainerHtmlControl {
      * @param Html $html
      * @return Controls\Html
      */
-    public function addHtml($name, $caption = null, Html $html) {
-        return $this[$name] = new Controls\Html($caption,  $html);
+    public function addHtml(string $name, ?string $caption = null, ?Html $html = null)
+    {
+        return $this[$name] = new Controls\Html($caption, $html);
     }
 }

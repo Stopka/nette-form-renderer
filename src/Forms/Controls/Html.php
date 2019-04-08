@@ -12,20 +12,28 @@ namespace Stopka\NetteFormRenderer\Forms\Controls;
 use Nette\Forms\Controls\BaseControl;
 use Nette\Utils\Html as HtmlUtil;
 
-class Html extends BaseControl{
+class Html extends BaseControl
+{
     /**
-     * @param  string  label
+     * @param string|object  label
      * @param HtmlUtil html
      */
-    public function __construct($label = NULL, HtmlUtil $html){
+    public function __construct($label = null, ?HtmlUtil $html = null)
+    {
         parent::__construct($label);
-        $this->setHtml(HtmlUtil::el('div')->addHtml($html));
+        if (!$html) {
+            $html = HtmlUtil::el();
+        }
+        $this->setHtml(
+            HtmlUtil::el('div')->setHtml($html)
+        );
         $this->setOmitted();
     }
 
-    public function setHtml(HtmlUtil $html){
+    public function setHtml(HtmlUtil $html)
+    {
         $this->control->setName($html->getName());
-        $this->control->addHtml($html->getHtml());
+        $this->control->setHtml($html->getHtml());
         $this->control->addClass("form-html-control");
     }
 }

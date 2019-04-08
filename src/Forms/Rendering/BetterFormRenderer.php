@@ -7,7 +7,8 @@ use Nette\Forms\Controls;
 use Nette\Utils\Html as Html;
 use Stopka\NetteFormRenderer\Forms\IFormOptionKeys;
 
-class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
+class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys
+{
     use Nette\SmartObject;
     protected const OPTION_KEY_RENDERED = 'rendered';
 
@@ -134,12 +135,13 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
 
     /**
      * Provides complete form rendering.
-     * @param  Nette\Forms\Form $form
+     * @param Nette\Forms\Form $form
      * @param  $mode null|string|Nette\Forms\Container|Nette\Forms\ControlGroup|Nette\Forms\IControl 'begin', 'errors', 'ownerrors', 'body', 'end' or empty to render all
      * @return string
      * @throws FormRenderException
      */
-    public function render(Nette\Forms\Form $form, $mode = NULL): string {
+    public function render(Nette\Forms\Form $form, $mode = null): string
+    {
         if ($this->form !== $form) {
             $this->form = $form;
         }
@@ -152,7 +154,8 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
     /**
      * Converts legacy embedNext group options to embed options
      */
-    protected function prepareGroups() {
+    protected function prepareGroups()
+    {
         $parent = [];
         $counter = [];
         foreach ($this->form->getGroups() as $group) {
@@ -166,7 +169,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
                 $counter[0]--;
             }
             $next = $group->getOption(self::OPTION_KEY_EMBED_NEXT);
-            if ($next === TRUE) {
+            if ($next === true) {
                 $next = 1;
             }
             if ($next) {
@@ -185,7 +188,8 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * Renders default layout of form
      * @return string
      */
-    public function renderDefault(): string {
+    public function renderDefault(): string
+    {
         $s = '';
         $s .= $this->renderBegin();
         $s .= $this->renderErrors();
@@ -200,7 +204,8 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * @return string
      * @throws FormRenderException
      */
-    public function renderMode($mode): string {
+    public function renderMode($mode): string
+    {
         if (is_object($mode)) {
             if ($mode instanceof Nette\Forms\Container) {
                 return $this->renderGroupControls($mode);
@@ -220,7 +225,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
             case self::RENDER_MODE_OWNERRORS:
                 return $this->renderErrors();
             case self::RENDER_MODE_ERRORS:
-                return $this->renderErrors(NULL, FALSE);
+                return $this->renderErrors(null, false);
             case self::RENDER_MODE_BODY:
                 return $this->renderBody();
             case self::RENDER_MODE_GROUPCONTROLS:
@@ -251,11 +256,12 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * Renders form begin.
      * @return string
      */
-    public function renderBegin(): string {
+    public function renderBegin(): string
+    {
         $this->counter = 0;
 
         foreach ($this->form->getControls() as $control) {
-            $control->setOption(self::OPTION_KEY_RENDERED, FALSE);
+            $control->setOption(self::OPTION_KEY_RENDERED, false);
         }
 
         if ($this->form->isMethod('get')) {
@@ -263,7 +269,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
             $query = parse_url($el->action, PHP_URL_QUERY);
             $el->action = str_replace("?$query", '', $el->action);
             $s = '';
-            foreach (preg_split('#[;&]#', $query, NULL, PREG_SPLIT_NO_EMPTY) as $param) {
+            foreach (preg_split('#[;&]#', $query, null, PREG_SPLIT_NO_EMPTY) as $param) {
                 $parts = explode('=', $param, 2);
                 $name = urldecode($parts[0]);
                 if (!isset($this->form[$name])) {
@@ -282,14 +288,15 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * Renders form end.
      * @return string
      */
-    public function renderEnd(): string {
+    public function renderEnd(): string
+    {
         $s = '';
         foreach ($this->form->getControls() as $control) {
             if ($control->getOption(self::OPTION_KEY_TYPE) === 'hidden' && !$control->getOption(self::OPTION_KEY_RENDERED)) {
                 $s .= $control->getControl();
             }
         }
-        if (iterator_count($this->form->getComponents(TRUE, Nette\Forms\Controls\TextInput::class)) < 2) {
+        if (iterator_count($this->form->getComponents(true, Nette\Forms\Controls\TextInput::class)) < 2) {
             $s .= '<!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->';
         }
         if ($s) {
@@ -306,7 +313,8 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * @param bool $own
      * @return string
      */
-    public function renderErrors(Nette\Forms\IControl $control = NULL, bool $own = TRUE): string {
+    public function renderErrors(Nette\Forms\IControl $control = null, bool $own = true): string
+    {
         $errors = $control
             ? $control->getErrors()
             : ($own ? $this->form->getOwnErrors() : $this->form->getErrors());
@@ -333,7 +341,8 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * Renders form body.
      * @return string
      */
-    public function renderBody(): string {
+    public function renderBody(): string
+    {
         $s = '';
 
         foreach ($this->form->getGroups() as $group) {
@@ -367,11 +376,12 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
 
     /**
      * Renders group of controls.
-     * @param  Nette\Forms\Container|Nette\Forms\ControlGroup $group
+     * @param Nette\Forms\Container|Nette\Forms\ControlGroup $group
      * @return string
      * @throws FormRenderException
      */
-    public function renderGroup($group): string {
+    public function renderGroup($group): string
+    {
         if ($group->getOption(self::OPTION_KEY_RENDERED)) {
             return '';
         }
@@ -409,7 +419,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
             if ($text instanceof Html) {
                 $group_label->addHtml($text);
             } elseif (is_string($text)) {
-                if ($translator !== NULL) {
+                if ($translator !== null) {
                     $text = $translator->translate($text);
                 }
                 $group_label->setText($text);
@@ -425,7 +435,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
             $s .= $text;
 
         } elseif (is_string($text) || is_array($text)) {
-            if ($translator !== NULL) {
+            if ($translator !== null) {
                 $text = $translator->translate($text);
             }
             $s .= $this->getWrapper('group description')->setText($text) . "\n";
@@ -468,10 +478,11 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
 
     /**
      * Renders controls of group.
-     * @param  Nette\Forms\Container|Nette\Forms\ControlGroup
+     * @param Nette\Forms\Container|Nette\Forms\ControlGroup
      * @return string
      */
-    public function renderGroupControls($parent): string {
+    public function renderGroupControls($parent): string
+    {
         if (!($parent instanceof Nette\Forms\Container || $parent instanceof Nette\Forms\ControlGroup)) {
             throw new Nette\InvalidArgumentException('Argument must be Nette\Forms\Container or Nette\Forms\ControlGroup instance.');
         }
@@ -481,9 +492,9 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
 
         $container = $this->getWrapper('controls container');
 
-        $buttons = NULL;
+        $buttons = null;
         foreach ($parent->getControls() as $control) {
-            if ($control->getOption(self::OPTION_KEY_RENDERED) || $control->getOption(self::OPTION_KEY_TYPE) === 'hidden' || $control->getForm(FALSE) !== $this->form) {
+            if ($control->getOption(self::OPTION_KEY_RENDERED) || $control->getOption(self::OPTION_KEY_TYPE) === 'hidden' || $control->getForm(false) !== $this->form) {
                 continue;
             }
             if ($control->getOption(self::OPTION_KEY_TYPE) === 'button') {
@@ -492,12 +503,12 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
             }
             if ($buttons) {
                 $container->addHtml($this->renderPairMulti($buttons));
-                $buttons = NULL;
+                $buttons = null;
             }
             $container->addHtml($this->renderPair($control));
         }
         if ($buttons) {
-            $additional_class = $parent instanceof Nette\Forms\Container ? 'form-actions' : NULL;
+            $additional_class = $parent instanceof Nette\Forms\Container ? 'form-actions' : null;
             $action_buttons = $this->renderPairMulti($buttons, $additional_class);
             $container->addHtml($action_buttons);
         }
@@ -515,15 +526,16 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * Renders single visual row.
      * @return string
      */
-    public function renderPair(Nette\Forms\IControl $control): string {
+    public function renderPair(Nette\Forms\IControl $control): string
+    {
         $pair = $this->getWrapper('pair container');
         $pair->addHtml($this->renderLabel($control));
         $pair->addHtml($this->renderControl($control));
-        $pair->class($this->getValue($control->isRequired() ? 'pair .required' : 'pair .optional'), TRUE);
-        $pair->class($control->hasErrors() ? $this->getValue('pair .error') : NULL, TRUE);
-        $pair->class($control->getOption(self::OPTION_KEY_CLASS), TRUE);
+        $pair->class($this->getValue($control->isRequired() ? 'pair .required' : 'pair .optional'), true);
+        $pair->class($control->hasErrors() ? $this->getValue('pair .error') : null, true);
+        $pair->class($control->getOption(self::OPTION_KEY_CLASS), true);
         if (++$this->counter % 2) {
-            $pair->class($this->getValue('pair .odd'), TRUE);
+            $pair->class($this->getValue('pair .odd'), true);
         }
         $pair->id = $control->getOption(self::OPTION_KEY_ID);
         return $pair->render(0);
@@ -532,11 +544,12 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
 
     /**
      * Renders single visual row of multiple controls.
-     * @param  Nette\Forms\IControl[]
+     * @param Nette\Forms\IControl[]
      * @param string|NULL $additional_class třída, která se má přidat kontejneru
      * @return string
      */
-    public function renderPairMulti(array $controls, $additional_class = NULL): string {
+    public function renderPairMulti(array $controls, $additional_class = null): string
+    {
         $s = [];
         $pair_id = null;
         $pair_classes = [];
@@ -561,10 +574,10 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
                 $description = '';
             }
 
-            $control->setOption(self::OPTION_KEY_RENDERED, TRUE);
+            $control->setOption(self::OPTION_KEY_RENDERED, true);
             $el = $control->getControl();
             if ($el instanceof Html && $el->getName() === 'input') {
-                $el->class($this->getValue("control .$el->type"), TRUE);
+                $el->class($this->getValue("control .$el->type"), true);
             }
             //$help=$control->getOption('help');
             //$this->appendHelpBoxData($el,$help);
@@ -596,15 +609,16 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * Renders 'label' part of visual row of controls.
      * @return string
      */
-    public function renderLabel(Nette\Forms\IControl $control): string {
+    public function renderLabel(Nette\Forms\IControl $control): string
+    {
         $suffix = $this->getValue('label suffix') . ($control->isRequired() ? $this->getValue('label requiredsuffix') : '');
         $label = $control->getLabel();
         if ($label instanceof Html) {
             $label->addHtml($suffix);
             if ($control->isRequired()) {
-                $label->class($this->getValue('control .required'), TRUE);
+                $label->class($this->getValue('control .required'), true);
             }
-        } elseif ($label != NULL) { // @intentionally ==
+        } elseif ($label != null) { // @intentionally ==
             $label .= $suffix;
         }
         return $this->getWrapper('label container')->setHtml($label);
@@ -619,11 +633,12 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * Renders 'control' part of visual row of controls.
      * @return string
      */
-    public function renderControl(Nette\Forms\IControl $control): string {
+    public function renderControl(Nette\Forms\IControl $control): string
+    {
         $body = $this->getWrapper('control container');
         //$this->appendHelpBoxData($body,$control->getOption('help'));
         if ($this->counter % 2) {
-            $body->class($this->getValue('control .odd'), TRUE);
+            $body->class($this->getValue('control .odd'), true);
         }
 
         $description = $control->getOption(self::OPTION_KEY_DESCRIPTION);
@@ -649,30 +664,32 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
             $description = $this->getValue('control requiredsuffix') . $description;
         }
 
-        $control->setOption(self::OPTION_KEY_RENDERED, TRUE);
+        $control->setOption(self::OPTION_KEY_RENDERED, true);
         $el = $control->getControl();
         if ($el instanceof Html && $el->getName() === 'input') {
-            $el->class($this->getValue("control .$el->type"), TRUE);
+            $el->class($this->getValue("control .$el->type"), true);
         }
         return $body->setHtml($el . $description . $this->renderErrors($control));
     }
 
 
     /**
-     * @param  string
+     * @param string
      * @return Html
      */
-    protected function getWrapper(string $name): Html {
+    protected function getWrapper(string $name): Html
+    {
         $data = $this->getValue($name);
         return $data instanceof Html ? clone $data : Html::el($data);
     }
 
 
     /**
-     * @param  string
+     * @param string
      * @return string
      */
-    protected function getValue(string $name): ?string {
+    protected function getValue(string $name): ?string
+    {
         $name = explode(' ', $name);
         $data = &$this->wrappers[$name[0]][$name[1]];
         return $data;
@@ -682,7 +699,8 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * @return string
      * @throws FormRenderException
      */
-    public function renderControls(): string {
+    public function renderControls(): string
+    {
         return $this->renderMode(self::RENDER_MODE_CONTROLS);
     }
 
@@ -690,7 +708,8 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys {
      * @return string
      * @throws FormRenderException
      */
-    public function renderButtons(): string {
+    public function renderButtons(): string
+    {
         return $this->renderMode(self::RENDER_MODE_BUTTONS);
     }
 
