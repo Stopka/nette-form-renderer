@@ -20,7 +20,7 @@ trait TContainerHtmlControl
      * @param Html $html
      * @return Controls\Html
      */
-    public function addHtml(string $name, ?string $caption = null, ?Html $html = null)
+    public function addHtml(string $name, ?string $caption = null, ?Html $html = null): \Stopka\NetteFormRenderer\Forms\Controls\Html
     {
         return $this[$name] = new Controls\Html($caption, $html);
     }

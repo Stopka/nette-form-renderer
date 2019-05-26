@@ -9,6 +9,8 @@
 namespace Stopka\NetteFormRenderer\Forms;
 
 
+use Stopka\NetteFormRenderer\Forms\Controls\StandardizedCheckbox;
+
 trait TContainerStandardizedCheckboxControl
 {
     /**
@@ -17,7 +19,7 @@ trait TContainerStandardizedCheckboxControl
      * @param string|object
      * @return Controls\StandardizedCheckbox
      */
-    public function addStandardizedCheckbox(string $name, ?string $caption = null)
+    public function addStandardizedCheckbox(string $name, ?string $caption = null): StandardizedCheckbox
     {
         return $this[$name] = new Controls\StandardizedCheckbox($caption);
     }

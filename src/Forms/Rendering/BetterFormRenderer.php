@@ -154,7 +154,7 @@ class BetterFormRenderer implements Nette\Forms\IFormRenderer, IFormOptionKeys
     /**
      * Converts legacy embedNext group options to embed options
      */
-    protected function prepareGroups()
+    protected function prepareGroups(): void
     {
         $parent = [];
         $counter = [];
