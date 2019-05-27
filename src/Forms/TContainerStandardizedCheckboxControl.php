@@ -17,10 +17,10 @@ trait TContainerStandardizedCheckboxControl
      * Adds check box control to the form.
      * @param string
      * @param string|object
-     * @return Controls\StandardizedCheckbox
+     * @return StandardizedCheckbox
      */
     public function addStandardizedCheckbox(string $name, ?string $caption = null): StandardizedCheckbox
     {
-        return $this[$name] = new Controls\StandardizedCheckbox($caption);
+        return $this[$name] = new StandardizedCheckbox($caption);
     }
 }
